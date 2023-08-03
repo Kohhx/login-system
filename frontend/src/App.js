@@ -14,7 +14,7 @@ function App() {
     <>
       <ToastContainer />
       <Router>
-        <div className="main-container">
+        <div className="">
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
 
