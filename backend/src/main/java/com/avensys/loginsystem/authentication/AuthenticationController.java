@@ -2,6 +2,8 @@ package com.avensys.loginsystem.authentication;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +26,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(registrationResponse, HttpStatus.CREATED);
     }
 
-//    @PostMapping("login")
-//    public ResponseEntity<AuthenticationResponseDTO> authenticateAndGetToken(@RequestBody AuthLoginRequestDTO authRequest) {
-//        Authentication authentication = authenticationManager
-//                .authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(),
-//                        authRequest.getPassword()));
-//
-//        if (authentication.isAuthenticated()) {
-//            AuthenticationResponseDTO responseDTO = authenticationService.getUserAuthResponse(authRequest.getEmail(), "Login successfully");
-//            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-//        } else {
-//            throw new ResourceNotFoundException("Invalid user request");
-//        }
-//    }
+    @PostMapping("login")
+    public ResponseEntity<LoginResponseDTO> authenticateAndGetToken(@RequestBody LoginRequestDTO loginRequest) {
+        LoginResponseDTO loginResponse = authenticationService.loginUser(loginRequest);
+        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+    }
 
+}
 }
