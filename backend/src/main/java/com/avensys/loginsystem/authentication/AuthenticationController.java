@@ -2,8 +2,6 @@ package com.avensys.loginsystem.authentication;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +20,6 @@ public class AuthenticationController {
     @PostMapping("signup")
     public ResponseEntity<RegistrationResponseDTO> signup(@RequestBody RegistrationRequestDTO registrationRequest) {
         RegistrationResponseDTO registrationResponse = authenticationService.signUpUser(registrationRequest);
-//        String token = jwtService.generateToken(user.getEmail());
         return new ResponseEntity<>(registrationResponse, HttpStatus.CREATED);
     }
 
@@ -33,4 +30,4 @@ public class AuthenticationController {
     }
 
 }
-}
+

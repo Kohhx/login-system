@@ -1,5 +1,7 @@
 package com.avensys.loginsystem.authentication;
 
+import com.avensys.loginsystem.exceptions.DuplicateResourceException;
+import com.avensys.loginsystem.exceptions.InvalidCredentialException;
 import com.avensys.loginsystem.jwt.JwtService;
 import com.avensys.loginsystem.role.Role;
 import com.avensys.loginsystem.role.RoleRepository;
@@ -12,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -33,8 +34,9 @@ public class AuthenticationService {
 
     public RegistrationResponseDTO signUpUser(RegistrationRequestDTO registrationRequest) {
         if (userRepository.existsByUsername(registrationRequest.username())) {
-//            throw new DuplicateResourceException("Email already exist!");
+            throw new DuplicateResourceException("Username already exist!");
         }
+
         User userSaved = saveUser(registrationRequest);
         if (userSaved == null) {
             throw new RuntimeException("Error saving user");
@@ -52,11 +54,10 @@ public class AuthenticationService {
     }
 
     public LoginResponseDTO loginUser(LoginRequestDTO loginRequest) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.username(),
-                        loginRequest.password()));
-
-        if (authentication.isAuthenticated()) {
+        try {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.username(),
+                            loginRequest.password()));
             User user = userRepository.findByUsername(loginRequest.username()).get();
             String token = jwtService.generateToken(user.getUsername());
             return new LoginResponseDTO(
@@ -68,8 +69,8 @@ public class AuthenticationService {
                     token,
                     user.getRolesList()
             );
-        } else {
-            throw new ResourceNotFoundException("Invalid user request");
+        } catch (Exception e) {
+            throw new InvalidCredentialException("Invalid user credential");
         }
     }
 
