@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 import LogoutGuard from "./routeGuards/LogoutGuard";
-import Signup from "./pages/Signup";
+import Signup from "./components/Signup";
 import Login from "./pages/Login";
 import Welcome from "./pages/Welcome";
 import UserGuard from "./routeGuards/UserGuard";

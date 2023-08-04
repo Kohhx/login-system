@@ -28,5 +28,15 @@
   "Go Back Home": "Go Back Home",
   "Username is required": "Username is required",
   "Password is required": "Password is required",
-  "Password must be at least 8 characters long": "Password must be at least 8 characters long"
+  "Password must be at least 8 characters long": "Password must be at least 8 characters long",
+  "Sign Up": "Sign Up",
+  "Confirm Password": "Confirm Password",
+  "Enter confirm password": "Enter confirm password",
+  "First name is required": "First name is required",
+  "Last name is required":  "Last name is required",
+  "Confirm password is required": "Confirm password is required",
+  "Confirm password must be at least 8 characters long": "Confirm password must be at least 8 characters long",
+  "Enter first name": "Enter first name",
+  "Enter last name": "Enter last name"
+
 }
