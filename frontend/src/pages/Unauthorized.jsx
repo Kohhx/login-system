@@ -3,8 +3,10 @@ import UnauthorizedImage from "../assets/images/403.jpg";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { useTranslation } from "react-i18next";
 
 const Unauthorized = () => {
+  const { t } = useTranslation();
   const { userDetails } = useContext(UserContext);
 
   return (
@@ -12,8 +14,8 @@ const Unauthorized = () => {
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="flex items-center justify-center gap-10 mb-8">
           <div>
-            <h1 className="text-7xl mb-2">403 Forbidden</h1>
-            <h3 className="text-xl">You are not allow access to the webpage!</h3>
+            <h1 className="text-7xl mb-2">403 {t('Forbidden')}</h1>
+            <h3 className="text-xl">{t('You are not allow access to the webpage!')}</h3>
           </div>
         <img src={UnauthorizedImage} alt="Not found" className="w-[30%]" />
         </div>
@@ -23,7 +25,7 @@ const Unauthorized = () => {
           to={userDetails.isLoggedIn ? "/welcome" : "/login"}
         >
           <BsArrowLeftShort className="text-2xl" />
-          <span>Go back Home</span>
+          <span>{t('Go Back Home')}</span>
         </Link>
       </div>
     </div>
