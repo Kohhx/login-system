@@ -5,87 +5,47 @@ export const UserContext = createContext();
 const UserProvider = ({ children }) => {
   const initalState = {
     isLoggedIn: false,
-    role: "",
+    role: [],
     id: "",
     userAuth: "",
   };
-  const [userDetails, setUserDetails] = useState(loadUserDetails());
+  const [userDetails, setUserDetails] = useState(returnUserDetails());
 
-  function loadUserDetails() {
+  function returnUserDetails() {
     return {
       isLoggedIn:
         sessionStorage.getItem("token") &&
         sessionStorage.getItem("authenticatedUser") &&
         true,
-      role: sessionStorage.getItem("roles"),
+      roles: sessionStorage.getItem("roles"),
       id: sessionStorage.getItem("id"),
       userAuth: sessionStorage.getItem("authenticatedUser"),
     };
   }
 
-  // function handleUserLogin() {
-  //   if (
-  //     sessionStorage.getItem("token") &&
-  //     sessionStorage.getItem("authenticatedUser")
-  //   ) {
-  //     setUserDetails((prev) => ({ ...prev, isLoggedIn: true }));
-  //   }
-  // }
+  function loadUserDetails() {
+    setUserDetails(returnUserDetails());
+  }
 
-  // function handleUserRole() {
-  //   setUserDetails((prev) => ({
-  //     ...prev,
-  //     role: sessionStorage.getItem("role"),
-  //   }));
-  // }
+  function resetUserDetails() {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("authenticatedUser");
+    sessionStorage.removeItem("roles");
+    sessionStorage.removeItem("id");
+    setUserDetails(initalState);
+  }
 
-  // function handleUserId() {
-  //   setUserDetails( prev => ({ ...prev, id: sessionStorage.getItem("id") }));
-  // }
-
-  // function handleUserEmail() {
-  //   setUserDetails( prev => ({
-  //     ...prev,
-  //     userAuth: sessionStorage.getItem("authenticatedUser"),
-  //   }));
-  // }
-
-  // function loginUserDetails() {
-  //   handleUserLogin()
-  //   handleUserRole();
-  //   handleUserId();
-  //   handleUserEmail();
-  // }
-
-  // function logoutUserDetails() {
-  //   setUserDetails(initalState);
-  // }
-
-  // function isUserLoggedIn() {
-  //   return  (sessionStorage.getItem("token") &&
-  //   sessionStorage.getItem("authenticatedUser")) || false;
-  // }
-
-  // function getUserRole() {
-  //   return sessionStorage.getItem("role");
-  // }
-
-  // function getUserId() {
-  //   return sessionStorage.getItem("id");
-  // }
+  function isManager() {
+    return userDetails.roles.includes("ROLE_MANAGER");
+  }
 
   return (
     <UserContext.Provider
       value={{
         userDetails,
-        // handleUserLogin,
-        // handleUserRole,
-        // handleUserId,
-        // loginUserDetails,
-        // logoutUserDetails,
-        // isUserLoggedIn,
-        // getUserRole,
-        // getUserId,
+        isManager,
+        loadUserDetails,
+        resetUserDetails
       }}
     >
       {children}
