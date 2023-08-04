@@ -15,7 +15,11 @@ export const AuthenticationAPI = {
         const data = res.data;
         let token = TOKEN_PREFIX + data.token;
         setSessionStorage(data.id, data.username, token, JSON.stringify(data.roles));
+        return Promise.resolve(res);
       })
+      .catch((err) => {
+        return Promise.reject(err.response.data.message);
+      });
   },
   login: async (userLoginDetails) => {
     return axiosInstance

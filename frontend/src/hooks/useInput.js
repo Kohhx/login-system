@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { validate } from "../utility/InputValidator";
 
-export default function useInput(initialValue, validators = [], t) {
-
+export default function useInput(initialValue, validators = [], t = undefined) {
   const initialState = {
     value: initialValue,
     isFocused: false,
@@ -18,32 +17,7 @@ export default function useInput(initialValue, validators = [], t) {
 
   const setFocus = (isFocused) => {
     setInputData((prev) => ({ ...prev, isFocused }));
-  }
-
-  // const validateInput = useCallback(() => {
-  //   const [isInputValid, validatorMessages] = validate(
-  //     inputData.value,
-  //     validators
-  //   );
-
-  //   if (isInputValid) {
-  //     setInputData((prev) => ({ ...prev, isValid: true, errorMessages: [] }));
-  //   } else {
-  //     setInputData((prev) => ({
-  //       ...prev,
-  //       isValid: false,
-  //       errorMessages: validatorMessages,
-  //     }));
-  //   }
-  // }, [inputData.value, validators]);
-
-
-  // useEffect(() => {
-  //   const [isInputValid, validatorMessages] = validate(
-  //     inputData.value,
-  //     validators
-  //   );
-  // }, [inputData.value, validators])
+  };
 
   useEffect(() => {
     const [isInputValid, validatorMessages] = validate(
@@ -60,7 +34,7 @@ export default function useInput(initialValue, validators = [], t) {
         errorMessages: validatorMessages,
       }));
     }
-  },[inputData.value,t])
+  }, [inputData.value, t]);
 
   const handleFocus = () => {
     setInputData((prev) => ({ ...prev, isFocused: true }));
