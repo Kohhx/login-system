@@ -17,7 +17,7 @@ const UserProvider = ({ children }) => {
         sessionStorage.getItem("token") &&
         sessionStorage.getItem("authenticatedUser") &&
         true,
-      roles: sessionStorage.getItem("roles"),
+      roles: JSON.parse(sessionStorage.getItem("roles")),
       id: sessionStorage.getItem("id"),
       userAuth: sessionStorage.getItem("authenticatedUser"),
     };

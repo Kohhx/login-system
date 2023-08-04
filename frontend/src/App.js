@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -16,6 +16,10 @@ import Login from "./pages/Login";
 import Welcome from "./pages/Welcome";
 import UserGuard from "./routeGuards/UserGuard";
 import NavbarLayout from "./layout/NavbarLayout";
+import ManagerGuard from "./routeGuards/ManagerGuard";
+import ManagerRestricted from "./pages/ManagerRestricted";
+import Unauthorized from "./pages/Unauthorized";
+import Notfound from "./pages/Notfound";
 
 function App() {
   return (
@@ -32,13 +36,20 @@ function App() {
               <Route path="/register" element={<Signup />} />
             </Route>
 
-            {/* Routes protected by Login user guard */}
-            <Route element={<UserGuard />}>
-              <Route element={<NavbarLayout />}>
+            <Route element={<NavbarLayout />}>
+              {/* Routes protected by Login user guard */}
+              <Route element={<UserGuard />}>
                 <Route path="/welcome" element={<Welcome />} />
+              </Route>
+
+              {/* Routes protected by Manager user guard */}
+              <Route element={<ManagerGuard />}>
+                <Route path="/manager" element={<ManagerRestricted />} />
               </Route>
             </Route>
 
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="*" element={<Notfound />} />
           </Routes>
         </div>
       </Router>

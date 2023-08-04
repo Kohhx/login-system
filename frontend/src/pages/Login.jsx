@@ -18,10 +18,10 @@ const Login = () => {
   const navigate = useNavigate();
   const { loadUserDetails } = useContext(UserContext);
 
-  const { ...usernameInput } = useInput("", [
+  const { setFocus: usernameFocus, ...usernameInput } = useInput("", [
     VALIDATOR_REQUIRE("Username is required"),
   ]);
-  const { ...passwordInput } = useInput("", [
+  const { setFocus: passwordFocus, ...passwordInput } = useInput("", [
     VALIDATOR_REQUIRE("Password is required"),
     VALIDATOR_MINLENGTH(8, "Password must be at least 8 characters long"),
   ]);
@@ -29,7 +29,9 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     if (!usernameInput.inputData.isValid || !passwordInput.inputData.isValid) {
-      toast.error("Please enter valid username and password");
+      usernameFocus(true)
+      passwordFocus(true)
+      toast.error("Please enter valid username or password");
       return;
     }
 
@@ -76,13 +78,12 @@ const Login = () => {
             />
             <div className="flex items-center justify-between text-[0.8rem] mb-4">
               <div className="flex items-center">
-                <input type="checkbox" className="checked:accent-black mr-1"/>
-                <span>Remember me</span>
+                <input type="checkbox" className="checked:accent-black mr-1" />
+                <span className="text-[#7d7d7d]">Remember me</span>
               </div>
 
-              <span>Forgot Password?</span>
+              <span className="text-[#7d7d7d]">Forgot Password?</span>
             </div>
-
             <button
               className="w-full bg-black text-white text-[1rem] py-2 rounded-md mb-10 hover:bg-white hover:text-black hover:border-black border border-black transition-all"
               type="submit"
@@ -102,8 +103,8 @@ const Login = () => {
         </div>
       </div>
 
-      <div className="hidden w-1/2 md:flex lg:flex items-center justify-center">
-        <img src={LoginImage} alt="login" />
+      <div className="hidden w-1/2 md:flex lg:flex items-center justify-center pr-5">
+        <img src={LoginImage} alt="login" className="w-[90%]" />
       </div>
     </div>
   );

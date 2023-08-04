@@ -1,0 +1,15 @@
+.arrow-animate {
+  animation: arrow 1s infinite;
+}
+
+@keyframes arrow {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
