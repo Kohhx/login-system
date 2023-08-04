@@ -2,17 +2,20 @@ import React, { useContext } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { AuthenticationAPI } from "../../api/AuthenticationAPI";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import LogoImage from "../../assets/images/logo.png";
 
 import { UserContext } from "../../context/UserContext";
 import "./NavBar.css";
+import Language from "./Language";
 
 const NavBar = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { userDetails, resetUserDetails } = useContext(UserContext);
   return (
     <div className="bg-white flex items-center justify-between py-3 px-5 shadow-md text-xl h-[60px]">
-      <div>
+      <div className="flex gap-5 items-center">
         <Link to="/welcome">
           <img
             src={LogoImage}
@@ -20,18 +23,28 @@ const NavBar = () => {
             className="h-[40px] w-[40px] cursor-pointer"
           />
         </Link>
+        <NavLink
+          to="/welcome"
+          className={({ isActive }) =>
+            isActive ? "link-active" : "hover:scale-110 transition-all link"
+          }
+        >
+          {t("Welcome")}
+        </NavLink>
       </div>
-
-      <button
-        className="hover:scale-110 transition-all link"
-        onClick={() => {
-          toast.success("Logout successful");
-          resetUserDetails();
-          navigate("/login");
-        }}
-      >
-        Logout
-      </button>
+      <div className="flex items-center gap-5">
+        <Language />
+        <button
+          className="hover:scale-110 transition-all link"
+          onClick={() => {
+            toast.success("Logout successful");
+            resetUserDetails();
+            navigate("/login");
+          }}
+        >
+          {t("Logout")}
+        </button>
+      </div>
     </div>
   );
 };

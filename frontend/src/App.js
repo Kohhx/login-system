@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import i18n from './config/i18n';
 
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -22,6 +23,8 @@ import Unauthorized from "./pages/Unauthorized";
 import Notfound from "./pages/Notfound";
 
 function App() {
+
+
   return (
     <>
       <ToastContainer />

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { UserAPI } from "../api/UserAPI";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FaArrowRight } from "react-icons/fa";
 
 import "./Welcome.css";
 
 const Welcome = () => {
+  const { t } = useTranslation();
   const [userDetails, setUserDetails] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -36,27 +38,27 @@ const Welcome = () => {
             {userDetails && (
               <>
                 <h1 className="text-5xl">
-                  Welcome, {userDetails.firstName} {userDetails.lastName}{" "}
+                  {t('Welcome')}, {userDetails.firstName} {userDetails.lastName}{" "}
                   <span>&#x1F44B;</span>
                 </h1>
                 <div className="mt-5">
                   <p className="text-xl mb-1">
-                    <span className="font-bold">First Name</span> :{" "}
+                    <span className="font-bold">{t('First Name')}</span> :{" "}
                     {userDetails.firstName}
                   </p>
                   <p className="text-xl mb-1">
-                    <span className="font-bold">Last Name </span>:{" "}
+                    <span className="font-bold">{t('Last Name')}</span>:{" "}
                     {userDetails.lastName}
                   </p>
                   <p className="text-xl mb-1">
-                    <span className="font-bold">User Name</span> :{" "}
+                    <span className="font-bold">{t('User Name')}</span> :{" "}
                     {userDetails.username}
                   </p>
                   <p className="text-xl mb-1">
                     {userDetails?.roles?.length > 1 ? (
-                      <span className="font-bold">Roles </span>
+                      <span className="font-bold">{t('Roles')}</span>
                     ) : (
-                      <span className="font-bold">Roles </span>
+                      <span className="font-bold">{t('Role')}</span>
                     )}
                     :<span> {getRoles()}</span>
                   </p>
