@@ -56,7 +56,7 @@ const Welcome = () => {
                 className="absolute top-[-10px] right-[-10px] text-3xl cursor-pointer"
                 onClick={() => setIsUpdateModalOpen(false)}
               />
-              <Signup header="Edit" type="edit" data={userDetails} loadUser={getUserInfo} handleModal={setIsUpdateModalOpen}/>
+              <Signup header="Edit User" type="edit" data={userDetails} loadUser={getUserInfo} handleModal={setIsUpdateModalOpen}/>
             </Modal>
           </CSSTransition>
           <Card classNames="relative">

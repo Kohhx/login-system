@@ -45,5 +45,15 @@
   "Manage All Users": "管理所有用户",
   "No.": "序号",
   "Profile": "个人资料",
-  "Toggle Edit": "切换编辑"
+  "Toggle Edit": "切换编辑",
+  "Please enter valid details": "请输入有效的详细信息",
+  "Password and confirm password must be same": "密码和确认密码必须相同",
+  "Sign up successful": "注册成功",
+  "Edit user successful": "编辑用户成功",
+  "Logout successful": "成功登出",
+  "Please enter valid username or password": "请输入有效的用户名或密码",
+  "Login successful": "登录成功",
+  "Delete user successful": "删除用户成功",
+  "Edit User": "编辑用户资料",
+  "Update": "更新"
 }

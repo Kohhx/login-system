@@ -45,5 +45,15 @@
   "Manage All Users": "Manage All Users",
   "No.": "No.",
   "Profile": "Profile",
-  "Toggle Edit" : "Toggle Edit"
+  "Toggle Edit" : "Toggle Edit",
+  "Please enter valid details": "Please enter valid details",
+  "Password and confirm password must be same": "Password and confirm password must be same",
+  "Sign up successful": "Sign up successful",
+  "Edit user successful": "Edit user successful",
+  "Logout successful": "Logout successful",
+  "Please enter valid username or password": "Please enter valid username or password",
+  "Login successful": "Login successful",
+  "Delete user successful": "Delete user successful",
+  "Edit User": "Edit User",
+  "Update": "Update"
 }

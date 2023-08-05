@@ -16,16 +16,16 @@ public class UserController {
     }
 
     // Get own user info endpoint
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_USER')")
     @GetMapping("/api/v1/user")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_USER')")
     public ResponseEntity<UserResponseDTO> getUserInfo() {
         UserResponseDTO userResponse = userService.getUserInfo();
         return ResponseEntity.ok(userResponse);
     }
 
     // Update user endpoint
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_USER')")
     @PutMapping("/api/v1/users/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_USER')")
     public ResponseEntity<UserUpdateResponseDTO> updateUser(@RequestBody UserUpdateRequestDTO userUpdateRequest, @PathVariable long id) {
         UserUpdateResponseDTO userResponse = userService.updateUser(id, userUpdateRequest);
         return ResponseEntity.ok(userResponse);
