@@ -18,7 +18,7 @@ import { AiOutlineLogin } from "react-icons/ai";
 import Modal from "../components/shared/Modal";
 import { MdCancel } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
-import Signup from "../components/Signup";
+import ProfileManage from "../components/ProfileManage";
 import Button from "../components/shared/Button";
 
 const Login = () => {
@@ -98,7 +98,7 @@ const Login = () => {
             className="absolute top-[-10px] right-[-10px] text-3xl cursor-pointer"
             onClick={() => setIsOpenSignUpModal(false)}
           />
-        <Signup />
+        <ProfileManage header="Sign Up"/>
         </Modal>
       </CSSTransition>
       <div className="flex items-center justify-center h-screen">

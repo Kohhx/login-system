@@ -12,10 +12,10 @@ import Language from "./Language";
 const NavBar = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { userDetails, resetUserDetails } = useContext(UserContext);
+  const { userDetails, resetUserDetails, isManager } = useContext(UserContext);
   return (
     <div className="bg-white flex items-center justify-between py-3 px-5 shadow-md text-xl h-[60px]">
-      <div className="flex gap-5 items-center">
+      <div className="flex gap-7 items-center">
         <Link to="/welcome">
           <img
             src={LogoImage}
@@ -26,16 +26,26 @@ const NavBar = () => {
         <NavLink
           to="/welcome"
           className={({ isActive }) =>
-            isActive ? "link-active" : "hover:scale-110 transition-all link"
+            isActive ? "link-active" : "transition-all link"
           }
         >
           {t("Welcome")}
         </NavLink>
+        {isManager() && (
+          <NavLink
+            to="/users"
+            className={({ isActive }) =>
+              isActive ? "link-active" : "transition-all link"
+            }
+          >
+            {t("Manage Users")}
+          </NavLink>
+        )}
       </div>
       <div className="flex items-center gap-5">
         <Language />
         <button
-          className="hover:scale-110 transition-all link"
+          className="transition-all link"
           onClick={() => {
             toast.success("Logout successful");
             resetUserDetails();

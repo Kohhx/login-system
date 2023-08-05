@@ -38,5 +38,12 @@
   "Confirm password must be at least 8 characters long": "确认密码长度必须至少为8个字符",
   "Enter first name": "请输入名字",
   "Enter last name": "请输入姓氏",
-  "Edit": "编辑"
+  "Edit": "编辑",
+  "User": "用户",
+  "Select a role": "选择一个角色",
+  "Manage Users": "管理用户",
+  "Manage All Users": "管理所有用户",
+  "No.": "序号",
+  "Profile": "个人资料",
+  "Toggle Edit": "切换编辑"
 }

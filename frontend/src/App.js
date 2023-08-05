@@ -12,7 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 import LogoutGuard from "./routeGuards/LogoutGuard";
-import Signup from "./components/Signup";
 import Login from "./pages/Login";
 import Welcome from "./pages/Welcome";
 import UserGuard from "./routeGuards/UserGuard";
@@ -21,6 +20,7 @@ import ManagerGuard from "./routeGuards/ManagerGuard";
 import ManagerRestricted from "./pages/ManagerRestricted";
 import Unauthorized from "./pages/Unauthorized";
 import Notfound from "./pages/Notfound";
+import ManageUsers from "./pages/ManageUsers";
 
 function App() {
 
@@ -36,7 +36,6 @@ function App() {
             {/* Routes protected by Logout Guard */}
             <Route element={<LogoutGuard />}>
               <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Signup />} />
             </Route>
 
             <Route element={<NavbarLayout />}>
@@ -48,6 +47,7 @@ function App() {
               {/* Routes protected by Manager user guard */}
               <Route element={<ManagerGuard />}>
                 <Route path="/manager" element={<ManagerRestricted />} />
+                <Route path="/users" element={<ManageUsers />} />
               </Route>
             </Route>
 
