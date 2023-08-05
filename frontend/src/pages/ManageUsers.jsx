@@ -29,7 +29,7 @@ const ManageUsers = () => {
 
   const handleDeleteUser = (id) => {
     UserAPI.deleteUser(id).then(() => {
-      toast.success("User deleted successfully");
+      toast.success(t("Delete user successful"));
       getAllUsers();
     });
   };

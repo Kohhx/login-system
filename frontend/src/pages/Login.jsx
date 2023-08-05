@@ -40,9 +40,6 @@ const Login = () => {
     ],
     t
   );
-
-
-  // const { setFocus: usernameFocus, ...usernameInput } = useInput(
   //   "",
   //   [VALIDATOR_REQUIRE(t("Username is required"))],
   //   t
@@ -61,7 +58,7 @@ const Login = () => {
     if (!userNameRest.inputData.isValid || !passwordRest.inputData.isValid) {
       userNameMethods.setFocus(true);
       passwordMethods.setFocus(true);
-      toast.error("Please enter valid username or password");
+      toast.error(t("Please enter valid username or password"));
       return;
     }
 
@@ -74,7 +71,7 @@ const Login = () => {
     try {
       await AuthenticationAPI.login(loginUser);
       loadUserDetails();
-      toast.success("Login successful");
+      toast.success(t("Login successful"));
       navigate("/welcome");
     } catch (err) {
       toast.error(err);

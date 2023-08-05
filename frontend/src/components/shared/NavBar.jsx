@@ -47,7 +47,7 @@ const NavBar = () => {
         <button
           className="transition-all link"
           onClick={() => {
-            toast.success("Logout successful");
+            toast.success(t("Logout successful"));
             resetUserDetails();
             navigate("/login");
           }}

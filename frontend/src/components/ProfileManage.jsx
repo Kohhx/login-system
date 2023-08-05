@@ -95,7 +95,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
       passwordMethods.setFocus(true);
       confirmPasswordMethods.setFocus(true);
       rolesMethods.setFocus(true);
-      toast.error("Please enter valid details");
+      toast.error(t("Please enter valid details"));
       return false;
     }
     return true;
@@ -110,7 +110,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
 
     // Check if password and confirm password are same
     if (passwordRest.inputData.value !== confirmPasswordRest.inputData.value) {
-      toast.error("Password and confirm password must be same");
+      toast.error(t("Password and confirm password must be same"));
       return;
     }
 
@@ -125,7 +125,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
     try {
       await AuthenticationAPI.signup(signUpUser);
       loadUserDetails();
-      toast.success("Sign up successful");
+      toast.success(t("Sign up successful"));
       navigate("/welcome");
     } catch (err) {
       toast.error(err);
@@ -135,7 +135,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
 
   const checkIfPasswordMatches = () => {
     if (passwordRest.inputData.value !== confirmPasswordRest.inputData.value) {
-      toast.error("Password and confirm password must be same");
+      toast.error(t("Password and confirm password must be same"));
       return false;
     }
     return true;
@@ -162,7 +162,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
     try {
       await UserAPI.updateUserInfo(editUser);
       loadUserDetails();
-      toast.success("Edit successful");
+      toast.success(t("Edit user successful"));
       handleModal(false);
       loadUser();
     } catch (err) {
@@ -191,7 +191,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
 
     try {
       await UserAPI.updateUserInfoAndRole(editUser);
-      toast.success("Edit user successful");
+      toast.success(t("Edit user successful"));
       handleModal(false);
       loadUser();
     } catch (err) {
@@ -228,13 +228,15 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
         <div className="flex gap-3 text-4xl items-center">
           <h1 className="font-bold">{t(header)}</h1>
           <BiUserCircle className="text-5xl" />
-          <button onClick={() => setIsEditable(!isEditable)} className="flex gap-2 items-center text-sm bg-black text-white px-4 py-2 rounded-full hover:opacity-75">
-          <FiEdit3
-            className="cursor-pointer"
-
-          />
-          <span>{t('Toggle Edit')}</span>
-        </button>
+          {type === "editManager" && (
+            <button
+              onClick={() => setIsEditable(!isEditable)}
+              className="flex gap-2 items-center text-sm bg-black text-white px-4 py-2 rounded-full hover:opacity-75"
+            >
+              <FiEdit3 className="cursor-pointer" />
+              <span>{t("Toggle Edit")}</span>
+            </button>
+          )}
         </div>
         <Language iconClassNames="text-4xl" />
       </div>
@@ -287,7 +289,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
           <Button
             name={
               type === "edit" || type === "editManager"
-                ? t("Edit")
+                ? t("Update")
                 : t("Sign Up")
             }
             classNames="w-full"
