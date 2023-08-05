@@ -1,6 +1,6 @@
 # Login Application
 
-This project is a login application that allows users to log in, view their profile details, and access restricted content based on their role. The application is implemented using the React frontend framework and the Spring framework for the backend. It includes modules such as Spring Security and JWT for authentication and authorization, and Spring Data JPA for database interaction. The database used in the backend is MySQL.
+This project is a login application that allows users to log in, view their profile details, and access restricted content based on their role. The application is implemented using the React frontend framework with tailwind CSS and the Spring framework for the backend. It includes modules such as Spring Security and JWT for authentication and authorization, and Spring Data JPA for database interaction. The database used in the backend is MySQL. 
 
 ## Features
 
@@ -18,6 +18,7 @@ This project is a login application that allows users to log in, view their prof
 ## Tech Stack
 
 - Frontend: React
+- CSS : TailWind CSS
 - Backend: Java with Spring framework
 - Modules: Spring Security, JWT, Spring Data JPA
 - Database: MySQL
@@ -51,3 +52,7 @@ The recent update includes a "Manager" feature that allows managers to manage al
   - Include the username and password of local MySQL server 
 5. Build and run the application
 6. For Frontend react, within the frontend folder directory. Run "npm start".
+
+## Learning 
+
+I have minimized the use of external packages in React and have implemented most functionalities, such as form validation, modal, and custom hooks, through hand-written code. 
