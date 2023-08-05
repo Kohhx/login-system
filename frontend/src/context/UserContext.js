@@ -36,7 +36,7 @@ const UserProvider = ({ children }) => {
   }
 
   function isManager() {
-    return userDetails.roles.includes("ROLE_MANAGER");
+    return userDetails?.roles?.includes("ROLE_MANAGER");
   }
 
   return (

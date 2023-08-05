@@ -27,12 +27,12 @@ const Login = () => {
   const { loadUserDetails } = useContext(UserContext);
   const [isOpenSignUpModal, setIsOpenSignUpModal] = useState(false);
 
-  const { setFocus: usernameFocus, ...usernameInput } = useInput(
+  const { inputMethods: userNameMethods, inputRest: userNameRest } = useInput(
     "",
     [VALIDATOR_REQUIRE(t("Username is required"))],
     t
   );
-  const { setFocus: passwordFocus, ...passwordInput } = useInput(
+  const { inputMethods: passwordMethods , inputRest: passwordRest  } = useInput(
     "",
     [
       VALIDATOR_REQUIRE(t("Password is required")),
@@ -41,19 +41,34 @@ const Login = () => {
     t
   );
 
+
+  // const { setFocus: usernameFocus, ...usernameInput } = useInput(
+  //   "",
+  //   [VALIDATOR_REQUIRE(t("Username is required"))],
+  //   t
+  // );
+  // const { setFocus: passwordFocus, ...passwordInput } = useInput(
+  //   "",
+  //   [
+  //     VALIDATOR_REQUIRE(t("Password is required")),
+  //     VALIDATOR_MINLENGTH(8, t("Password must be at least 8 characters long")),
+  //   ],
+  //   t
+  // );
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if (!usernameInput.inputData.isValid || !passwordInput.inputData.isValid) {
-      usernameFocus(true);
-      passwordFocus(true);
+    if (!userNameRest.inputData.isValid || !passwordRest.inputData.isValid) {
+      userNameMethods.setFocus(true);
+      passwordMethods.setFocus(true);
       toast.error("Please enter valid username or password");
       return;
     }
 
     // TODO: Login logic
     const loginUser = {
-      username: usernameInput.inputData.value,
-      password: passwordInput.inputData.value,
+      username: userNameRest.inputData.value,
+      password: passwordRest.inputData.value,
     };
 
     try {
@@ -71,12 +86,12 @@ const Login = () => {
     <>
       <CSSTransition
         in={isOpenSignUpModal}
-        timeout={300}
+        timeout={250}
         classNames="fadedown" // Classes for css transition in index.css
         unmountOnExit
       >
         <Modal
-          isOpen={isOpenSignUpModal}
+          isOpen={true}
           closeModal={() => setIsOpenSignUpModal(false)}
         >
           <MdCancel
@@ -103,13 +118,13 @@ const Login = () => {
             <form className="flex flex-col" onSubmit={handleLoginSubmit}>
               <Input
                 type="text"
-                input={usernameInput}
+                input={userNameRest}
                 placeHolder={t("Enter username")}
                 label={t("User name")}
               />
               <Input
                 type="text"
-                input={passwordInput}
+                input={passwordRest}
                 placeHolder={t("Enter password")}
                 label={t("Password")}
               />

@@ -1,8 +1,7 @@
 package com.avensys.loginsystem.user;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -15,6 +14,12 @@ public class UserController {
     @GetMapping("/api/v1/user")
     public ResponseEntity<UserResponseDTO> getUserInfo() {
         UserResponseDTO userResponse = userService.getUserInfo();
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @PutMapping("/api/v1/users/{id}")
+    public ResponseEntity<UserUpdateResponseDTO> updateUserRole(@RequestBody UserUpdateRequestDTO userUpdateRequest, @PathVariable long id) {
+        UserUpdateResponseDTO userResponse = userService.updateUserRole(id, userUpdateRequest);
         return ResponseEntity.ok(userResponse);
     }
 }

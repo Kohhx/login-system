@@ -37,5 +37,6 @@
   "Confirm password is required": "请确认密码",
   "Confirm password must be at least 8 characters long": "确认密码长度必须至少为8个字符",
   "Enter first name": "请输入名字",
-  "Enter last name": "请输入姓氏"
+  "Enter last name": "请输入姓氏",
+  "Edit": "编辑"
 }
