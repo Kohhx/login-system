@@ -17,7 +17,7 @@ const Input = ({ type, input, placeHolder, label }) => {
           <label >{label}</label>
         </div>
       )}
-      <input type={type} placeholder={placeHolder} {...inputRest} className={inputClasses}/>
+      <input value={inputData.value} disabled={!inputData.isEditable} type={type} placeholder={placeHolder} {...inputRest} className={inputClasses}/>
       <div className="mt-1">
         {inputData.isFocused &&
           !inputData.isValid &&

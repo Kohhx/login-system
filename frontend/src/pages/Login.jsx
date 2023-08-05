@@ -71,12 +71,12 @@ const Login = () => {
     <>
       <CSSTransition
         in={isOpenSignUpModal}
-        timeout={300}
+        timeout={250}
         classNames="fadedown" // Classes for css transition in index.css
         unmountOnExit
       >
         <Modal
-          isOpen={isOpenSignUpModal}
+          isOpen={true}
           closeModal={() => setIsOpenSignUpModal(false)}
         >
           <MdCancel

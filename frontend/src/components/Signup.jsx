@@ -13,26 +13,32 @@ import { AuthenticationAPI } from "../api/AuthenticationAPI";
 import { UserContext } from "../context/UserContext";
 import { useTranslation } from "react-i18next";
 import Language from "./shared/Language";
+import Select from "./shared/Select";
 
-const Signup = () => {
+const Signup = ({ type, data = {} }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { loadUserDetails } = useContext(UserContext);
+  const { loadUserDetails, isManager } = useContext(UserContext);
+  console.log("data", data)
+
+  if (data) {
+
+  }
 
   const { setFocus: firstNameFocus, ...firstNameInput } = useInput(
-    "",
+    data.firstName || "",
     [VALIDATOR_REQUIRE(t("First name is required"))],
     t
   );
 
   const { setFocus: lastNameFocus, ...lastNameInput } = useInput(
-    "",
+    data.lastName || "",
     [VALIDATOR_REQUIRE(t("Last name is required"))],
     t
   );
 
   const { setFocus: userNameFocus, ...userNameInput } = useInput(
-    "",
+    data.username || "",
     [VALIDATOR_REQUIRE(t("Username is required"))],
     t
   );
@@ -50,8 +56,17 @@ const Signup = () => {
     "",
     [
       VALIDATOR_REQUIRE(t("Confirm password is required")),
-      VALIDATOR_MINLENGTH(8, t("Confirm password must be at least 8 characters long")),
+      VALIDATOR_MINLENGTH(
+        8,
+        t("Confirm password must be at least 8 characters long")
+      ),
     ],
+    t
+  );
+
+  const { setFocus: rolesFocus, ...rolesInput } = useInput(
+    (data.roles && data.roles[0]) ||  "",
+    [VALIDATOR_REQUIRE("Select a role")],
     t
   );
 
@@ -101,17 +116,34 @@ const Signup = () => {
     }
   };
 
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+  };
+
+  const handleEditManagerSubmit = async (e) => {
+    e.preventDefault();
+  };
+
+  let handlesubmit = handleSignupSubmit;
+  if (type === "edit") {
+    handlesubmit = handleEditSubmit;
+  }
+
+  if (type === "editManager") {
+    handlesubmit = handleEditManagerSubmit;
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
         <div className="flex gap-3 text-4xl items-center">
-          <h1 className="font-bold">{t('Sign Up')}</h1>
+          <h1 className="font-bold">{t("Sign Up")}</h1>
           <BiUserCircle className="text-5xl" />
         </div>
         <Language iconClassNames="text-4xl" />
       </div>
 
-      <form onSubmit={handleSignupSubmit}>
+      <form onSubmit={handlesubmit}>
         <div className="flex gap-5">
           <Input
             type="text"
@@ -144,6 +176,17 @@ const Signup = () => {
           placeHolder={t("Enter confirm password")}
           input={confirmPasswordInput}
         />
+        {isManager() && type === "editManager" && (
+          <Select
+            label="Role"
+            options={[
+              { name: "User", value: "ROLE_USER" },
+              { name: "Manager", value: "ROLE_MANAGER" },
+            ]}
+            selectHeader="Select a role"
+            input={rolesInput}
+          />
+         )}
         <Button name="Sign Up" />
       </form>
     </div>
