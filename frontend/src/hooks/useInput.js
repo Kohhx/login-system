@@ -1,9 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { validate } from "../utility/InputValidator";
 
-export default function useInput(initialValue, validators = [], t = undefined, editable = true) {
-
-  console.log("Initial Value: ", initialValue)
+export default function useInput(
+  initialValue,
+  validators = [],
+  t = undefined,
+  editable = true
+) {
+  console.log("Initial Value: ", initialValue);
   const initialState = {
     value: initialValue,
     isFocused: false,
@@ -20,7 +24,7 @@ export default function useInput(initialValue, validators = [], t = undefined, e
 
   const setValue = (value) => {
     setInputData((prev) => ({ ...prev, value }));
-  }
+  };
 
   const setFocus = (isFocused) => {
     setInputData((prev) => ({ ...prev, isFocused }));
@@ -28,7 +32,7 @@ export default function useInput(initialValue, validators = [], t = undefined, e
 
   const setEditable = (isEditable) => {
     setInputData((prev) => ({ ...prev, isEditable }));
-  }
+  };
 
   useEffect(() => {
     const [isInputValid, validatorMessages] = validate(
@@ -51,12 +55,22 @@ export default function useInput(initialValue, validators = [], t = undefined, e
     setInputData((prev) => ({ ...prev, isFocused: true }));
   };
 
+  // return {
+  //   inputData,
+  //   setFocus,
+  //   setEditable,
+  //   setValue,
+  //   onChange: handleChange,
+  //   onFocus: handleFocus,
+  // };
+
   return {
-    inputData,
-    setFocus,
-    setEditable,
-    setValue,
-    onChange: handleChange,
-    onFocus: handleFocus,
+    inputMethods: { setFocus, setEditable, setValue },
+    inputRest: {
+      inputData,
+      value: inputData.value,
+      onChange: handleChange,
+      onFocus: handleFocus,
+    },
   };
 }

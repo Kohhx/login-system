@@ -14,36 +14,33 @@ import { UserContext } from "../context/UserContext";
 import { useTranslation } from "react-i18next";
 import Language from "./shared/Language";
 import Select from "./shared/Select";
+import { UserAPI } from "../api/UserAPI";
 
-const Signup = ({ type, data = {} }) => {
+const Signup = ({ type, data = {}, loadUser, handleModal }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { loadUserDetails, isManager } = useContext(UserContext);
-  console.log("data", data)
+  console.log("data", data);
 
-  if (data) {
-
-  }
-
-  const { setFocus: firstNameFocus, ...firstNameInput } = useInput(
+  const { inputMethods: firstNameMethods, inputRest: firstNameRest } = useInput(
     data.firstName || "",
     [VALIDATOR_REQUIRE(t("First name is required"))],
     t
   );
 
-  const { setFocus: lastNameFocus, ...lastNameInput } = useInput(
+  const { inputMethods: lastNameMethods, inputRest: lastNameRest } = useInput(
     data.lastName || "",
     [VALIDATOR_REQUIRE(t("Last name is required"))],
     t
   );
 
-  const { setFocus: userNameFocus, ...userNameInput } = useInput(
+  const { inputMethods: userNameMethods, inputRest: userNameRest } = useInput(
     data.username || "",
     [VALIDATOR_REQUIRE(t("Username is required"))],
     t
   );
 
-  const { setFocus: passwordFocus, ...passwordInput } = useInput(
+  const { inputMethods: passwordMethods, inputRest: passwordRest } = useInput(
     "",
     [
       VALIDATOR_REQUIRE(t("Password is required")),
@@ -52,7 +49,10 @@ const Signup = ({ type, data = {} }) => {
     t
   );
 
-  const { setFocus: confirmPasswordFocus, ...confirmPasswordInput } = useInput(
+  const {
+    inputMethods: confirmPasswordMethods,
+    inputRest: confirmPasswordRest,
+  } = useInput(
     "",
     [
       VALIDATOR_REQUIRE(t("Confirm password is required")),
@@ -64,45 +64,53 @@ const Signup = ({ type, data = {} }) => {
     t
   );
 
-  const { setFocus: rolesFocus, ...rolesInput } = useInput(
-    (data.roles && data.roles[0]) ||  "",
+  const { inputMethods: rolesMethods, inputRest: rolesRest } = useInput(
+    (data.roles && data.roles[0]) || "USER_ROLE",
     [VALIDATOR_REQUIRE("Select a role")],
     t
   );
 
+  // Overall form check to make sure all fields are valid
+  const checkInputsAreValid = () => {
+    if (
+      !firstNameRest.inputData.isValid ||
+      !lastNameRest.inputData.isValid ||
+      !userNameRest.inputData.isValid ||
+      !passwordRest.inputData.isValid ||
+      !confirmPasswordRest.inputData.isValid ||
+      !rolesRest.inputData.isValid
+    ) {
+      firstNameMethods.setFocus(true);
+      lastNameMethods.setFocus(true);
+      userNameMethods.setFocus(true);
+      passwordMethods.setFocus(true);
+      confirmPasswordMethods.setFocus(true);
+      rolesMethods.setFocus(true);
+      toast.error("Please enter valid details");
+      return false;
+    }
+    return true;
+  };
+
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    // Check if all inputs are valid
-    if (
-      !firstNameInput.inputData.isValid ||
-      !lastNameInput.inputData.isValid ||
-      !userNameInput.inputData.isValid ||
-      !passwordInput.inputData.isValid ||
-      !confirmPasswordInput.inputData.isValid
-    ) {
-      firstNameFocus(true);
-      lastNameFocus(true);
-      userNameFocus(true);
-      passwordFocus(true);
-      confirmPasswordFocus(true);
-      toast.error("Please enter valid details");
+
+    if (!checkInputsAreValid()) {
       return;
     }
 
     // Check if password and confirm password are same
-    if (
-      passwordInput.inputData.value !== confirmPasswordInput.inputData.value
-    ) {
+    if (passwordRest.inputData.value !== confirmPasswordRest.inputData.value) {
       toast.error("Password and confirm password must be same");
       return;
     }
 
-    // TODO: Login logic
+    // TODO: Login Rest
     const signUpUser = {
-      firstName: firstNameInput.inputData.value,
-      lastName: lastNameInput.inputData.value,
-      username: userNameInput.inputData.value,
-      password: passwordInput.inputData.value,
+      firstName: firstNameRest.inputData.value,
+      lastName: lastNameRest.inputData.value,
+      username: userNameRest.inputData.value,
+      password: passwordRest.inputData.value,
     };
 
     try {
@@ -116,8 +124,42 @@ const Signup = ({ type, data = {} }) => {
     }
   };
 
+  const checkIfPasswordMatches = () => {
+    if (passwordRest.inputData.value !== confirmPasswordRest.inputData.value) {
+      toast.error("Password and confirm password must be same");
+      return false;
+    }
+    return true;
+  };
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    // Check if all inputs are valid
+    if (!checkInputsAreValid()) return;
+
+    // Check if password and confirm password are same
+    if (!checkIfPasswordMatches) return;
+
+    // Handle edit user
+    const editUser = {
+      id: data.id,
+      firstName: firstNameRest.inputData.value,
+      lastName: lastNameRest.inputData.value,
+      username: userNameRest.inputData.value,
+      password: passwordRest.inputData.value,
+      roles: [rolesRest.inputData.value],
+    };
+
+    try {
+      await UserAPI.updateUserInfo(editUser);
+      loadUserDetails();
+      toast.success("Edit successful");
+      handleModal(false)
+      loadUser();
+    } catch (err) {
+      toast.error(err);
+      return;
+    }
   };
 
   const handleEditManagerSubmit = async (e) => {
@@ -149,32 +191,32 @@ const Signup = ({ type, data = {} }) => {
             type="text"
             label={t("First Name")}
             placeHolder={t("Enter first name")}
-            input={firstNameInput}
+            input={firstNameRest}
           />
           <Input
             type="text"
             label={t("Last Name")}
             placeHolder={t("Enter last name")}
-            input={lastNameInput}
+            input={lastNameRest}
           />
         </div>
         <Input
           type="text"
           label={t("User Name")}
           placeHolder={t("Enter user name")}
-          input={userNameInput}
+          input={userNameRest}
         />
         <Input
           type="password"
           label={t("Password")}
           placeHolder={t("Enter password")}
-          input={passwordInput}
+          input={passwordRest}
         />
         <Input
           type="password"
           label={t("Confirm Password")}
           placeHolder={t("Enter confirm password")}
-          input={confirmPasswordInput}
+          input={confirmPasswordRest}
         />
         {isManager() && type === "editManager" && (
           <Select
@@ -184,10 +226,10 @@ const Signup = ({ type, data = {} }) => {
               { name: "Manager", value: "ROLE_MANAGER" },
             ]}
             selectHeader="Select a role"
-            input={rolesInput}
+            input={rolesRest}
           />
-         )}
-        <Button name="Sign Up" />
+        )}
+        <Button name={(type === 'edit' || type === 'editManager') ? t('Edit') : t("Sign Up")} classNames="w-full" />
       </form>
     </div>
   );

@@ -19,12 +19,16 @@ const Welcome = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const getUserInfo = () => {
     setLoading(true);
     UserAPI.getUserInfo().then((userData) => {
       setUserDetails(userData);
       setLoading(false);
     });
-  }, []);
+  }
 
   const getRoles = () => {
     const rolesArray = userDetails.roles?.map((role) => {
@@ -52,7 +56,7 @@ const Welcome = () => {
                 className="absolute top-[-10px] right-[-10px] text-3xl cursor-pointer"
                 onClick={() => setIsUpdateModalOpen(false)}
               />
-              <Signup type="edit" data={userDetails}/>
+              <Signup type="edit" data={userDetails} loadUser={getUserInfo} handleModal={setIsUpdateModalOpen}/>
             </Modal>
           </CSSTransition>
           <Card classNames="relative">

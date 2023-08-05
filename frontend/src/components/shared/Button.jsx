@@ -4,7 +4,7 @@ const Button = ({ classNames, name, ...rest }) => {
   return (
     <button
       {...rest}
-      className={`w-full bg-black text-white text-[1rem] py-2 rounded-md  hover:bg-white hover:text-black hover:border-black border border-black transition-all ${classNames}`}
+      className={`bg-black text-white text-[1rem] py-2 rounded-md  hover:bg-white hover:text-black hover:border-black border border-black transition-all ${classNames}`}
       type="submit"
     >
       {name}
