@@ -22,7 +22,7 @@ This project is a login application that allows users to log in, view their prof
 - Modules: Spring Security, JWT, Spring Data JPA
 - Database: MySQL
 
-## MVC Pattern with Nth Tier architecture backend
+## MVC Pattern with Nth Tier architecture Backend
 
 The application has been designed following the Model-View-Controller (MVC) pattern to ensure a clear separation of concerns. This pattern provides a structured approach for organizing code and maintaining scalability.
 
