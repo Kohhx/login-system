@@ -120,7 +120,7 @@ const Login = () => {
                 label={t("User name")}
               />
               <Input
-                type="text"
+                type="password"
                 input={passwordRest}
                 placeHolder={t("Enter password")}
                 label={t("Password")}
