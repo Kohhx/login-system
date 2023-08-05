@@ -4,7 +4,7 @@ This project is a login application that allows users to log in, view their prof
 
 ## Features
 
-- User-friendly login interface developed using React
+- User-friendly and beautiful login application interface developed using React
 - Secure backend implemented in Java with Spring framework
 - Spring Security and JWT for handling authentication and authorization
 - Upon successful login, users are redirected to a welcome page displaying their name, username, and role (manager/user)
