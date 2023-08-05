@@ -1,0 +1,11 @@
+.user-table th, td {
+    padding: 10px;
+}
+
+.user-table {
+    border:1px solid black;
+}
+
+.user-table tr {
+    border-bottom: 1px solid black;
+}

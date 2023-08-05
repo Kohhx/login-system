@@ -9,7 +9,7 @@ import Card from "../components/shared/Card";
 import Button from "../components/shared/Button";
 
 import "./Welcome.css";
-import Signup from "../components/Signup";
+import Signup from "../components/ProfileManage";
 import Modal from "../components/shared/Modal";
 
 const Welcome = () => {
@@ -56,14 +56,14 @@ const Welcome = () => {
                 className="absolute top-[-10px] right-[-10px] text-3xl cursor-pointer"
                 onClick={() => setIsUpdateModalOpen(false)}
               />
-              <Signup type="edit" data={userDetails} loadUser={getUserInfo} handleModal={setIsUpdateModalOpen}/>
+              <Signup header="Edit" type="edit" data={userDetails} loadUser={getUserInfo} handleModal={setIsUpdateModalOpen}/>
             </Modal>
           </CSSTransition>
           <Card classNames="relative">
             {userDetails && (
               <>
                 <Button
-                  name="Edit"
+                  name={t("Edit")}
                   classNames="w-[20%] absolute bottom-[40px] right-[40px]"
                   onClick={() => setIsUpdateModalOpen(true)}
                 />

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import useInput from "../hooks/useInput";
@@ -15,29 +15,35 @@ import { useTranslation } from "react-i18next";
 import Language from "./shared/Language";
 import Select from "./shared/Select";
 import { UserAPI } from "../api/UserAPI";
+import { FiEdit3 } from "react-icons/fi";
 
-const Signup = ({ type, data = {}, loadUser, handleModal }) => {
+const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { loadUserDetails, isManager } = useContext(UserContext);
-  console.log("data", data);
+  const [isEditable, setIsEditable] = useState(
+    type === "editManager" ? false : true
+  );
 
   const { inputMethods: firstNameMethods, inputRest: firstNameRest } = useInput(
     data.firstName || "",
     [VALIDATOR_REQUIRE(t("First name is required"))],
-    t
+    t,
+    type === "editManager" && false
   );
 
   const { inputMethods: lastNameMethods, inputRest: lastNameRest } = useInput(
     data.lastName || "",
     [VALIDATOR_REQUIRE(t("Last name is required"))],
-    t
+    t,
+    type === "editManager" && false
   );
 
   const { inputMethods: userNameMethods, inputRest: userNameRest } = useInput(
     data.username || "",
     [VALIDATOR_REQUIRE(t("Username is required"))],
-    t
+    t,
+    type === "editManager" && false
   );
 
   const { inputMethods: passwordMethods, inputRest: passwordRest } = useInput(
@@ -46,7 +52,8 @@ const Signup = ({ type, data = {}, loadUser, handleModal }) => {
       VALIDATOR_REQUIRE(t("Password is required")),
       VALIDATOR_MINLENGTH(8, t("Password must be at least 8 characters long")),
     ],
-    t
+    t,
+    type === "editManager" && false
   );
 
   const {
@@ -61,13 +68,15 @@ const Signup = ({ type, data = {}, loadUser, handleModal }) => {
         t("Confirm password must be at least 8 characters long")
       ),
     ],
-    t
+    t,
+    type === "editManager" && false
   );
 
   const { inputMethods: rolesMethods, inputRest: rolesRest } = useInput(
     (data.roles && data.roles[0]) || "USER_ROLE",
     [VALIDATOR_REQUIRE("Select a role")],
-    t
+    t,
+    type === "editManager" && false
   );
 
   // Overall form check to make sure all fields are valid
@@ -154,7 +163,7 @@ const Signup = ({ type, data = {}, loadUser, handleModal }) => {
       await UserAPI.updateUserInfo(editUser);
       loadUserDetails();
       toast.success("Edit successful");
-      handleModal(false)
+      handleModal(false);
       loadUser();
     } catch (err) {
       toast.error(err);
@@ -164,6 +173,31 @@ const Signup = ({ type, data = {}, loadUser, handleModal }) => {
 
   const handleEditManagerSubmit = async (e) => {
     e.preventDefault();
+    // Check if all inputs are valid
+    if (!checkInputsAreValid()) return;
+
+    // Check if password and confirm password are same
+    if (!checkIfPasswordMatches) return;
+
+    // Handle edit user
+    const editUser = {
+      id: data.id,
+      firstName: firstNameRest.inputData.value,
+      lastName: lastNameRest.inputData.value,
+      username: userNameRest.inputData.value,
+      password: passwordRest.inputData.value,
+      roles: [rolesRest.inputData.value],
+    };
+
+    try {
+      await UserAPI.updateUserInfoAndRole(editUser);
+      toast.success("Edit user successful");
+      handleModal(false);
+      loadUser();
+    } catch (err) {
+      toast.error(err);
+      return;
+    }
   };
 
   let handlesubmit = handleSignupSubmit;
@@ -175,16 +209,35 @@ const Signup = ({ type, data = {}, loadUser, handleModal }) => {
     handlesubmit = handleEditManagerSubmit;
   }
 
+  const handleEdit = () => {
+    firstNameMethods.setEditable(isEditable);
+    lastNameMethods.setEditable(isEditable);
+    userNameMethods.setEditable(isEditable);
+    passwordMethods.setEditable(isEditable);
+    confirmPasswordMethods.setEditable(isEditable);
+    rolesMethods.setEditable(isEditable);
+  };
+
+  useEffect(() => {
+    handleEdit();
+  }, [isEditable]);
+
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
         <div className="flex gap-3 text-4xl items-center">
-          <h1 className="font-bold">{t("Sign Up")}</h1>
+          <h1 className="font-bold">{t(header)}</h1>
           <BiUserCircle className="text-5xl" />
+          <button onClick={() => setIsEditable(!isEditable)} className="flex gap-2 items-center text-sm bg-black text-white px-4 py-2 rounded-full hover:opacity-75">
+          <FiEdit3
+            className="cursor-pointer"
+
+          />
+          <span>{t('Toggle Edit')}</span>
+        </button>
         </div>
         <Language iconClassNames="text-4xl" />
       </div>
-
       <form onSubmit={handlesubmit}>
         <div className="flex gap-5">
           <Input
@@ -220,16 +273,26 @@ const Signup = ({ type, data = {}, loadUser, handleModal }) => {
         />
         {isManager() && type === "editManager" && (
           <Select
-            label="Role"
+            label={t("Role")}
             options={[
-              { name: "User", value: "ROLE_USER" },
-              { name: "Manager", value: "ROLE_MANAGER" },
+              { name: t("User"), value: "ROLE_USER" },
+              { name: t("Manager"), value: "ROLE_MANAGER" },
             ]}
-            selectHeader="Select a role"
+            selectHeader={t("Select a role")}
             input={rolesRest}
           />
         )}
-        <Button name={(type === 'edit' || type === 'editManager') ? t('Edit') : t("Sign Up")} classNames="w-full" />
+
+        {isEditable && (
+          <Button
+            name={
+              type === "edit" || type === "editManager"
+                ? t("Edit")
+                : t("Sign Up")
+            }
+            classNames="w-full"
+          />
+        )}
       </form>
     </div>
   );

@@ -3,8 +3,12 @@ import React from "react";
 const Select = ({ input, label, options, selectHeader }) => {
   const { inputData, ...inputRest } = input;
 
-  let inputClasses =
-    "w-full border border-black rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400";
+  let inputClasses = `w-full ${
+    inputData.isEditable ? "bg-white" : "bg-[#f1f1f1]"
+  } border border-black rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400`;
+  let disabledClasses =
+    " disabled:text-gray-900 disabled:opacity-70 disabled:border-transparent";
+  inputClasses += disabledClasses;
   if (inputData.isFocused && !inputData.isValid) {
     inputClasses += " border-red-500 focus:ring-red-200 bg-red-100";
   }
@@ -18,10 +22,13 @@ const Select = ({ input, label, options, selectHeader }) => {
           <label>{label}</label>
         </div>
       )}
-      <select value={inputData.value} {...inputRest} className={inputClasses}>
-        <option value="" >
-          {selectHeader}
-        </option>
+      <select
+        disabled={!inputData.isEditable}
+        value={inputData.value}
+        {...inputRest}
+        className={inputClasses}
+      >
+        <option value="">{selectHeader}</option>
         {options.map((option, index) => {
           return (
             <option key={index} value={option.value}>

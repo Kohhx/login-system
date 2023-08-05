@@ -7,7 +7,7 @@ export default function useInput(
   t = undefined,
   editable = true
 ) {
-  console.log("Initial Value: ", initialValue);
+
   const initialState = {
     value: initialValue,
     isFocused: false,
@@ -54,15 +54,6 @@ export default function useInput(
   const handleFocus = () => {
     setInputData((prev) => ({ ...prev, isFocused: true }));
   };
-
-  // return {
-  //   inputData,
-  //   setFocus,
-  //   setEditable,
-  //   setValue,
-  //   onChange: handleChange,
-  //   onFocus: handleFocus,
-  // };
 
   return {
     inputMethods: { setFocus, setEditable, setValue },

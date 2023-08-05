@@ -23,6 +23,39 @@ export const UserAPI = {
       .catch((err) => {
         return Promise.reject(err.response.data.message);
       });
-  }
+  },
+  getAllUsers: async () => {
+    return axiosInstance
+      .get(`users`)
+      .then((res) => {
+        const data = res.data;
+        return Promise.resolve(data);
+      })
+      .catch((err) => {
+        return Promise.reject(err.response.data.message);
+      });
+  },
+  deleteUser: async (userId) => {
+    return axiosInstance
+    .delete(`users/${userId}`)
+      .then((res) => {
+        const data = res.data;
+        return Promise.resolve(data);
+      }
+      ).catch((err) => {
+        return Promise.reject(err.response.data.message);
+      });
+  },
+  updateUserInfoAndRole: async (userUpdateDetails) => {
+    return axiosInstance
+      .put(`users/${userUpdateDetails.id}/update`, userUpdateDetails)
+      .then((res) => {
+        const data = res.data;
+        return Promise.resolve(data);
+      })
+      .catch((err) => {
+        return Promise.reject(err.response.data.message);
+      });
+  },
 
 }
