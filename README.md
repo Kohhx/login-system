@@ -57,7 +57,7 @@ The recent update includes a "Manager" feature that allows managers to manage al
 
 I have minimized the use of external packages in React and have implemented most functionalities, such as form validation, modal, and custom hooks, through hand-written code. 
 
-## Video
+## Video Demo
 
 https://github.com/Kohhx/login-system/assets/108639973/ab4eb947-00c4-459b-962e-da4c68538231
 
