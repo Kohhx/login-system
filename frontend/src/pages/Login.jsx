@@ -20,6 +20,7 @@ import { MdCancel } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
 import ProfileManage from "../components/ProfileManage";
 import Button from "../components/shared/Button";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ const Login = () => {
     [VALIDATOR_REQUIRE(t("Username is required"))],
     t
   );
-  const { inputMethods: passwordMethods , inputRest: passwordRest  } = useInput(
+  const { inputMethods: passwordMethods, inputRest: passwordRest } = useInput(
     "",
     [
       VALIDATOR_REQUIRE(t("Password is required")),
@@ -79,6 +80,23 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async (credentialResponse) => {
+    const googleResponse = {
+      credential: credentialResponse.credential,
+      clientId: credentialResponse.clientId,
+    };
+
+    try {
+      await AuthenticationAPI.loginOAuth(googleResponse);
+      loadUserDetails();
+      toast.success(t("Login successful"));
+      navigate("/welcome");
+    } catch (err) {
+      toast.error(err);
+      return;
+    }
+  };
+
   return (
     <>
       <CSSTransition
@@ -87,15 +105,12 @@ const Login = () => {
         classNames="fadedown" // Classes for css transition in index.css
         unmountOnExit
       >
-        <Modal
-          isOpen={true}
-          closeModal={() => setIsOpenSignUpModal(false)}
-        >
+        <Modal isOpen={true} closeModal={() => setIsOpenSignUpModal(false)}>
           <MdCancel
             className="absolute top-[-10px] right-[-10px] text-3xl cursor-pointer"
             onClick={() => setIsOpenSignUpModal(false)}
           />
-        <ProfileManage header="Sign Up"/>
+          <ProfileManage header="Sign Up" />
         </Modal>
       </CSSTransition>
       <div className="flex items-center justify-center h-screen">
@@ -136,8 +151,21 @@ const Login = () => {
 
                 <span className="text-[#7d7d7d]">{t("Forgot password")}?</span>
               </div>
-              <Button classNames="mb-10" name="Login"/>
+              <Button classNames="mb-10" name="Login" />
             </form>
+            <hr />
+            <div className="flex justify-center mt-5 mb-5">
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+                type="standard"
+                text="signin_with"
+                size="medium"
+                logo_alignment="center"
+              />
+            </div>
             <div className="text-center text-[0.85rem]">
               <span className="mr-2 text-[#7d7d7d]">
                 {t("Dont have an Account")}?

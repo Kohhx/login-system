@@ -28,7 +28,29 @@ export const AuthenticationAPI = {
       return Promise.reject(err.response.data.message);
     });
   },
-  // changeRole(role) {
-  //   sessionStorage.setItem(ROLE_KEY, role);
-  // }
+  signupOAuth: async (userRegistrationDetails) => {
+    return axiosInstance
+      .post("signup-oauth", userRegistrationDetails)
+      .then((res) => {
+        const data = res.data;
+        session.setSessionStorage(data.id, data.username, data.token, JSON.stringify(data.roles));
+        return Promise.resolve(res);
+      })
+      .catch((err) => {
+        return Promise.reject(err.response.data.message);
+      });
+  },
+  loginOAuth: async (userLoginDetails) => {
+    return axiosInstance
+    .post("login-oauth", userLoginDetails)
+    .then((res) => {
+      session.removeSessionStorage();
+      const data = res.data;
+      session.setSessionStorage(data.id, data.username, data.token, JSON.stringify(data.roles));
+      return Promise.resolve(res);
+    })
+    .catch((err) => {
+      return Promise.reject(err.response.data.message);
+    });
+  },
 };

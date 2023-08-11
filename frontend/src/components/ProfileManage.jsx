@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import useInput from "../hooks/useInput";
@@ -16,8 +16,17 @@ import Language from "./shared/Language";
 import Select from "./shared/Select";
 import { UserAPI } from "../api/UserAPI";
 import { FiEdit3 } from "react-icons/fi";
+import { AiFillGoogleCircle } from "react-icons/ai";
+import { GoogleLogin } from "@react-oauth/google";
+import { hasGrantedAnyScopeGoogle } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
+// import { useGoogleOneTapLogin } from "@react-oauth/google";
+import { useGoogleOneTapLogin, useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import Button2 from "./shared/Button2";
 
 const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
+  const googleRef = useRef();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { loadUserDetails, isManager } = useContext(UserContext);
@@ -222,6 +231,63 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
     handleEdit();
   }, [isEditable]);
 
+  const handleGoogleResponse = async (credentialResponse) => {
+    console.log(credentialResponse);
+    // const hasAccess = hasGrantedAnyScopeGoogle(
+    //   credentialResponse.credential,
+    //   "email"
+    // );
+
+    // console.log(hasAccess);
+
+    // const {
+    //   email: username,
+    //   given_name: firstName,
+    //   family_name: lastName,
+    // } = jwtDecode(credentialResponse.credential);
+
+    // console.log(username);
+    // console.log(firstName);
+    // console.log(lastName);
+
+    // Handle edit user
+    const googleResponse = {
+      credential: credentialResponse.credential,
+      clientId: credentialResponse.clientId,
+    };
+
+    try {
+      await AuthenticationAPI.signupOAuth(googleResponse);
+      loadUserDetails();
+      toast.success(t("Sign up successful"));
+      navigate("/welcome");
+    } catch (err) {
+      toast.error(err);
+      return;
+    }
+  };
+
+  // const handleGoogleResponse = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     console.log(tokenResponse);
+  //     // Handle edit user
+  //     const googleResponse = {
+  //       credential: tokenResponse.access_token,
+  //       clientId: "",
+  //     };
+
+  //     try {
+  //       await AuthenticationAPI.signupOAuth(googleResponse);
+  //       loadUserDetails();
+  //       toast.success(t("Sign up successful"));
+  //       navigate("/welcome");
+  //     } catch (err) {
+  //       toast.error(err);
+  //       return;
+  //     }
+  //   },
+  // });
+
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
@@ -296,6 +362,19 @@ const Signup = ({ type, data = {}, loadUser, handleModal, header }) => {
           />
         )}
       </form>
+      <hr />
+      <div className="flex justify-center mt-5">
+        <GoogleLogin
+          onSuccess={handleGoogleResponse}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+          type="icon"
+          size="medium"
+          logo_alignment="center"
+          width="30px"
+        />
+      </div>
     </div>
   );
 };
