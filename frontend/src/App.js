@@ -23,7 +23,7 @@ import Notfound from "./pages/Notfound";
 import ManageUsers from "./pages/ManageUsers";
 
 function App() {
-
+  console.log(process.env.REACT_APP_CLIENT_ID);
 
   return (
     <>

@@ -1,5 +1,6 @@
 package com.avensys.loginsystem.authentication;
 
+import com.avensys.loginsystem.oauth.OAuthRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,21 @@ public class AuthenticationController {
         return new ResponseEntity<>(registrationResponse, HttpStatus.CREATED);
     }
 
+    @PostMapping("signup-oauth")
+    public ResponseEntity<RegistrationResponseDTO> signupOAuth(@RequestBody OAuthRequestDTO oauthRequest) {
+        RegistrationResponseDTO registrationResponse = authenticationService.signUpUserOAuth(oauthRequest);
+        return new ResponseEntity<>(registrationResponse, HttpStatus.CREATED);
+    }
+
     @PostMapping("login")
     public ResponseEntity<LoginResponseDTO> authenticateAndGetToken(@RequestBody LoginRequestDTO loginRequest) {
         LoginResponseDTO loginResponse = authenticationService.loginUser(loginRequest);
+        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("login-oauth")
+    public ResponseEntity<LoginResponseDTO> authenticateAndGetTokenOAuth(@RequestBody OAuthRequestDTO oauthRequest) {
+        LoginResponseDTO loginResponse = authenticationService.loginUserOAuth(oauthRequest);
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
 

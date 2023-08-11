@@ -4,6 +4,7 @@ import { AuthenticationAPI } from "../../api/AuthenticationAPI";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import LogoImage from "../../assets/images/logo.png";
+import { googleLogout } from '@react-oauth/google';
 
 import { UserContext } from "../../context/UserContext";
 import "./NavBar.css";
@@ -49,6 +50,7 @@ const NavBar = () => {
           onClick={() => {
             toast.success(t("Logout successful"));
             resetUserDetails();
+            googleLogout();
             navigate("/login");
           }}
         >

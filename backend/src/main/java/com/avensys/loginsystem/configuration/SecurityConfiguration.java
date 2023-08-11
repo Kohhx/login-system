@@ -36,6 +36,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers("/api/v1/signup").permitAll()
+                            .requestMatchers("/api/v1/signup-oauth").permitAll()
+                            .requestMatchers("/api/v1/login-oauth").permitAll()
                             .requestMatchers("/api/v1/login").permitAll()
                             .anyRequest().authenticated();
                 })
