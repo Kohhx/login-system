@@ -1,4 +1,4 @@
-# Login Application
+# Login Application & OAuth2
 
 This project is a login application that allows users to log in, view their profile details, and access restricted content based on their role. The application is implemented using the React frontend framework with tailwind CSS and the Spring framework for the backend. It includes modules such as Spring Security and JWT for authentication and authorization, and Spring Data JPA for database interaction. The database used in the backend is MySQL. 
 
@@ -7,6 +7,7 @@ This project is a login application that allows users to log in, view their prof
 - User-friendly and beautiful login application interface developed using React
 - Secure backend implemented in Java with Spring framework
 - Spring Security and JWT for handling authentication and authorization
+- Include both normal signup and Google OAuth login and sign up
 - Upon successful login, users are redirected to a welcome page displaying their name, username, and role (manager/user)
 - Managers have access to a restricted webpage with additional functionalities such as manager user and perform delete and update of users
 - Logout functionality to securely end the session
